@@ -1,22 +1,32 @@
 # 声明要求的 cmake 最低版本
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0.0)
 
-# 声明一个 cmake 工程
+# specifying a project name
 project(HelloSLAM)
 
-# 设置编译模式
+# set the build variant Degub/Release
 set(CMAKE_BUILD_TYPE "Debug")
 
-# 添加一个可执行程序
-# 语法：add_executable( 程序名 源代码文件 ）
+# A VERY SIMPLE PROGRAM
+# specify an executable program
 add_executable(helloSLAM helloSLAM.cpp)
+# manually: now create the intermediate makefiles with % cmake .
+# then compile using % make
 
-# 添加hello库
+
+# NOW TRY THE SAME BUT INTO A LIBRARY
+# compile this file into a static library called “hello”
 add_library(hello libHelloSLAM.cpp)
-# 共享库
-add_library(hello_shared SHARED libHelloSLAM.cpp)
+# static libraries will be compiled into .a files
 
-# 添加可执行程序调用hello库中函数
+# compile this file into a shared library called "hello_shared"
+add_library(hello_shared SHARED libHelloSLAM.cpp)
+# shared libraries are compiled into .so files
+
+# to call the library you need a header .h file, so we write one
+
+# now we write a program 
 add_executable(useHello useHello.cpp)
-# 将库文件链接到可执行程序上
+# and we link the library: the “useHello” program can use the code 
+# found inside the hello_shared library
 target_link_libraries(useHello hello_shared)
